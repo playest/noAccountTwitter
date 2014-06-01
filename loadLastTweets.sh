@@ -25,5 +25,6 @@ cat "$accountName.html" | ../pyxpath.py '//div[@class="Grid"]' >> "$lastTweetsFi
 echo "</tweets>" >> "$lastTweetsFile"
 
 #cat "$lastTweetsFile" | hxnormalize -x -l 1024 > "norm.$lastTweetsFile"
+#
 
 ../extractTweets.sh
