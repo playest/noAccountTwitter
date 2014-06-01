@@ -9,6 +9,6 @@ Then run `./aggregate.sh`
 
 Then open tweets.xml in your browser.
 
-# Dependecies
+# Dependencies
 
 For pyxpath see : https://github.com/playest/pyxpath#install
