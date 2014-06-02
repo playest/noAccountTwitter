@@ -1,0 +1,4 @@
+#-e git://github.com/playest/pyxpath.git#egg=pyxpath
+lxml
+html5lib
+BeautifulSoup

@@ -11,4 +11,6 @@ Then open tweets.xml in your browser.
 
 # Dependencies
 
-For pyxpath see : https://github.com/playest/pyxpath#install
+pyxpath is packaged with this program but if you want a clean install of it see : https://github.com/playest/pyxpath#install
+
+In any case you will need to install html5lib, lxml and BeautifulSoup (`pip install -r requirements.txt`).
