@@ -1,8 +1,8 @@
-#! /usr/bin/env python2.7
+#! /usr/bin/env python2.6
 
 from __future__ import print_function
 
-import argparse
+import optparse as argparse
 import sys
 import html5lib
 import io
@@ -42,13 +42,13 @@ def anymlToTree(stream, debug=False):
 #cat explxml.xml | ./pypath.py '//country' -a 'concat($0/@name, " ", $0/rank)'
 
 def main():
-    parser = argparse.ArgumentParser(description='pyxpath filter an html flux with an xpath expression.')
-    parser.add_argument('exprs', nargs="+", default=".", help="one or more xpath expressions")
-    parser.add_argument('-a', '--action', default=None, help="action to apply on the results. The default is to display the node.")
-    parser.add_argument('-f', '--file', nargs="?", default=None, help="file to read, if not set will read stdin.")
-    parser.add_argument('-d', '--debug', action='store_true', help='display debug messages.')
-    
-    args = parser.parse_args()
+    parser = argparse.OptionParser(description='pyxpath filter an html flux with an xpath expression.')
+    #parser.add_option('exprs', nargs="+", default=".", help="one or more xpath expressions")
+    parser.add_option('-a', '--action', default=None, help="action to apply on the results. The default is to display the node.")
+    parser.add_option('-f', '--file', nargs=1, default=None, help="file to read, if not set will read stdin.")
+    parser.add_option('-d', '--debug', action='store_true', help='display debug messages.')
+
+    (args, rest) = parser.parse_args()
     
     if args.file is None:
         input_stream = sys.stdin
@@ -61,7 +61,7 @@ def main():
     if args.debug: sys.stderr.write("action: " + str(args.action) + "\n")
     
     if args.action is None:
-        elems = etree_document.xpath(args.exprs[0])
+        elems = etree_document.xpath(rest[0])
         if args.debug: sys.stderr.write("elems: " + str(len(elems)) + "\n")
         for elem in elems:
             try:
@@ -74,7 +74,7 @@ def main():
                     print("")
     else:
         results = []
-        for expr in args.exprs:
+        for expr in rest:
             result = []
             for elem in etree_document.xpath(expr):
                 if isinstance(elem, str):
@@ -89,15 +89,15 @@ def main():
         i = 0
         for result in results[0]:
             try:
-                if args.debug:
-                    sys.stderr.write(etree.tostring(result, pretty_print=True))
-                    #print(type(result))
-                col = {str(k):r[i] for (k,r) in enumerate(results)}
+                if args.debug: sys.stderr.write(etree.tostring(result, pretty_print=True))
+                col = {}
+                # col = {str(k):r[i] for (k,r) in enumerate(results)}
+                for (k,r) in enumerate(results):
+                    col[str(k)] = r[i]
                 print(etree_document.xpath(args.action, **col).encode("utf8"))
                 i += 1
             except IndexError:
-                if args.debug:
-                    sys.stderr.write( str(i) + ", " + str(dir(result)) + "\n")
+                sys.stderr.write( str(i) + ", " + str(dir(result)) + "\n")
 
     input_stream.close()
 
