@@ -15,4 +15,4 @@ pyxpath is packaged with this program but if you want a clean install of it see 
 
 In any case you will need to install html5lib, lxml and BeautifulSoup (`pip install -r requirements.txt`).
 
-If you only have access to python 2.6 (yes, I'm looking at you.) you can delete rename `pyxpath26.py` into `pyxpath.py`.
+If you only have access to python 2.6 (yes, I'm looking at you.) you can delete rename `pyxpath26.py` into `pyxpath.py` (not working apparently :().

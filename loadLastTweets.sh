@@ -21,7 +21,9 @@ wget -nv "$url" -O "$accountName.html"
 echo extracting ...
 
 echo "<tweets>" > "$lastTweetsFile"
-cat "$accountName.html" | ../pyxpath.py '//div[@class="Grid"]' >> "$lastTweetsFile"
+nbtweet=`cat "$accountName.html" | ../pyxpath.py "//li[@data-item-type='tweet']/@data-item-type" | wc -l`
+echo "Number of tweets: $nbtweet"
+cat "$accountName.html" | ../pyxpath.py "//li[@data-item-type='tweet']" >> "$lastTweetsFile"
 echo "</tweets>" >> "$lastTweetsFile"
 
 #cat "$lastTweetsFile" | hxnormalize -x -l 1024 > "norm.$lastTweetsFile"
